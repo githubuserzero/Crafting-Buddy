@@ -721,6 +721,18 @@ station_recipes = {
         { name = "Auto Miner Small",  prefab = "ItemKitAutoMinerSmall", req = { Iron = 15, Copper = 15, Steel = 100, Electrum = 50, Invar = 25 }, single_batch = true },
         { name = "Horizontal Auto Miner",prefab = "ItemKitHorizontalAutoMiner", req = { Iron = 8, Copper = 7, Steel = 60, Electrum = 25, Invar = 15 }, single_batch = true },
         { name = "Credit Card",       prefab = "ItemCreditCard",       req = { Silicon = 5, Copper = 2 }, single_batch = true },
+        { name = "Genetic Analyzer",       prefab = "AppliancePlantGeneticAnalyzer",       req = { Gold = 1, Copper = 5, Steel = 5 }, single_batch = true },
+        { name = "Genetic Splicer",       prefab = "AppliancePlantGeneticSplicer",       req = { Stellite = 20, Inconel = 10 }, single_batch = true },
+        { name = "Genetic Stabilizer",       prefab = "AppliancePlantGeneticStabilizer",       req = { Stellite = 20, Inconel = 10 }, single_batch = true },
+        { name = "Ground Telescope",       prefab = "ItemKitGroundTelescope",       req = { Electrum = 15, Steel = 25, Solder = 10 }, single_batch = true },
+        { name = "Linear Rail",       prefab = "ItemKitLinearRail",       req = { Steel = 3 }, single_batch = true },
+        { name = "Robotic Arm",       prefab = "ItemKitRoboticArm",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
+        { name = "Large Dock Atmos",       prefab = "ItemKitLarreDockAtmos",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
+        { name = "Large Dock Bypass",       prefab = "ItemKitLarreDockBypass",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
+        { name = "Large Dock Cargo",       prefab = "ItemKitLarreDockCargo",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
+        { name = "Large Dock Collector",       prefab = "ItemKitLarreDockCollector",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
+        { name = "Large Dock Hydroponics",       prefab = "ItemKitLarreDockHydroponics",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
+        { name = "Rover MKI",       prefab = "ItemKitRoverMKI",       req = { Copper = 15, Steel = 80, Electrum = 10, Constanttan = 5 }, single_batch = true },
     },
     -- ===== [3] PIPE BENDER =================
     [3] = {
@@ -848,7 +860,7 @@ station_recipes = {
         { name = "Kit Pipe Organ",    prefab = "ItemKitPipeOrgan",     req = { Iron = 3 }, single_batch = true },
         { name = "Kit Ice Crusher",   prefab = "ItemKitIceCrusher",    req = { Iron = 3, Copper = 1, Gold = 1 }, single_batch = true },
         { name = "Kit Shower",        prefab = "ItemKitShower",        req = { Iron = 5, Copper = 5, Silicon = 5 }, single_batch = true },
-        { name = "Seed Tray",         prefab = "ApplianceSeedTray",    req = { Iron = 10, Copper = 5, Silicon = 15 }, single_batch = true },
+        { name = "Appliance Seed Tray",         prefab = "ApplianceSeedTray",    req = { Iron = 10, Copper = 5, Silicon = 15 }, single_batch = true },
     },
     -- ===== [4] ROCKET MANUFACTORY =================
     [4] = {
