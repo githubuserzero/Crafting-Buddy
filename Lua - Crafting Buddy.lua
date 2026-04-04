@@ -238,6 +238,12 @@ local function roles_are_bound(keys)
     return true
 end
 
+local function device_list_safe()
+    local ok, devices = pcall(device_list)
+    if not ok or type(devices) ~= "table" then return {} end
+    return devices
+end
+
 local function device_matches_prefabs(dev, allowed_prefabs)
     if allowed_prefabs == nil then
         return true
@@ -343,6 +349,7 @@ end
 
 local settings_subtab = "silo"
 local settings_device_page = 1
+local cached_role_dropdowns = {}
 
 local ui_live_refresh = tostring(LIVE_REFRESH_TICKS)
 
@@ -544,8 +551,8 @@ station_recipes = {
         { name = "Kit Railing",       prefab = "ItemKitRailing",        req = { Iron = 1 } },
         { name = "Kit Comp Cladding", prefab = "ItemKitCompositeCladding", req = { Iron = 1 } },
         { name = "Kit Wall (Steel)",  prefab = "ItemKitWall",           req = { Steel = 1 } },
-        { name = "Kit Reinf Windows", prefab = "ItemKitReinforcedWindows", req = { Astroloy = 2 } },
-        { name = "Kit Win Shutter",   prefab = "ItemKitWindowShutter",  req = { Steel = 2, Solder = 1 } },
+        { name = "Kit Reinforced Windows", prefab = "ItemKitReinforcedWindows", req = { Astroloy = 2 } },
+        { name = "Kit Window Shutter",   prefab = "ItemKitWindowShutter",  req = { Steel = 2, Solder = 1 } },
         { name = "Kit Ladder",        prefab = "ItemKitLadder",         req = { Iron = 2 } },
         { name = "Kit Pipe",          prefab = "ItemKitPipe",           req = { Iron = 0.5 } },
         { name = "Cable Coil",        prefab = "ItemCableCoil",         req = { Copper = 0.5 } },
@@ -577,18 +584,18 @@ station_recipes = {
         { name = "Kit Stacker",       prefab = "ItemKitStacker",        req = { Iron = 10, Copper = 2 }, single_batch = true },
         { name = "Empty Can",         prefab = "ItemEmptyCan",          req = { Steel = 1 } },
         { name = "Cardboard Box",     prefab = "CardboardBox",          req = { Silicon = 2 } },
-        { name = "Cardboard Box Lg",  prefab = "CardboardBoxLarge",     req = { Silicon = 4 } },
+        { name = "Cardboard Box Large",  prefab = "CardboardBoxLarge",     req = { Silicon = 4 } },
         { name = "Kit Chute",         prefab = "ItemKitChute",          req = { Iron = 3 } },
-        { name = "Kit Standard Chute",prefab = "ItemKitStandardChute",  req = { Iron = 3, Constantan = 2, Electrum = 2 } },
+        { name = "Kit Powered Chute",prefab = "ItemKitStandardChute",  req = { Iron = 3, Constantan = 2, Electrum = 2 } },
         { name = "Kit SDB Hopper",    prefab = "ItemKitSDBHopper",      req = { Iron = 15 }, single_batch = true },
         { name = "Kit SDB Silo",      prefab = "KitSDBSilo",            req = { Gold = 20, Steel = 15, Copper = 10 }, single_batch = true },
         { name = "Kit Floor Grating", prefab = "ItemKitCompositeFloorGrating", req = { Iron = 1 } },
-        { name = "Kit Tool Manuf",    prefab = "ItemKitToolManufactory", req = { Iron = 20, Copper = 10 }, single_batch = true },
+        { name = "Kit Tool Manufactory",    prefab = "ItemKitToolManufactory", req = { Iron = 20, Copper = 10 }, single_batch = true },
         { name = "Kit Recycler",      prefab = "ItemKitRecycler",       req = { Iron = 20, Copper = 10 }, single_batch = true },
         { name = "Kit Centrifuge",    prefab = "ItemKitCentrifuge",     req = { Iron = 20, Copper = 5 }, single_batch = true },
-        { name = "Kit Comb Centrifuge",prefab = "KitStructureCombustionCentrifuge", req = { Steel = 20, Constantan = 5, Invar = 10 }, single_batch = true },
+        { name = "Kit Combustion Centrifuge",prefab = "KitStructureCombustionCentrifuge", req = { Steel = 20, Constantan = 5, Invar = 10 }, single_batch = true },
         { name = "Kit Deep Miner",    prefab = "ItemKitDeepMiner",      req = { Steel = 50, Constantan = 5, Invar = 10, Electrum = 5 }, single_batch = true },
-        { name = "Kit Comb Deep Miner",prefab = "ItemKitCombustionDeepMiner", req = { Steel = 50, Hastelloy = 10, Astroloy = 5, Electrum = 5 }, single_batch = true },
+        { name = "Kit Combustion Deep Miner",prefab = "ItemKitCombustionDeepMiner", req = { Steel = 50, Hastelloy = 10, Astroloy = 5, Electrum = 5 }, single_batch = true },
         { name = "Kit Crate Mount",   prefab = "ItemKitCrateMount",     req = { Iron = 10 }, single_batch = true },
         { name = "Kit Crate",         prefab = "ItemKitCrate",          req = { Iron = 10 }, single_batch = true },
         { name = "Kit Crate MkII",    prefab = "ItemKitCrateMkII",      req = { Iron = 10, Gold = 5 }, single_batch = true },
@@ -727,11 +734,11 @@ station_recipes = {
         { name = "Ground Telescope",       prefab = "ItemKitGroundTelescope",       req = { Electrum = 15, Steel = 25, Solder = 10 }, single_batch = true },
         { name = "Linear Rail",       prefab = "ItemKitLinearRail",       req = { Steel = 3 }, single_batch = true },
         { name = "Robotic Arm",       prefab = "ItemKitRoboticArm",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
-        { name = "Large Dock Atmos",       prefab = "ItemKitLarreDockAtmos",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
-        { name = "Large Dock Bypass",       prefab = "ItemKitLarreDockBypass",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
-        { name = "Large Dock Cargo",       prefab = "ItemKitLarreDockCargo",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
-        { name = "Large Dock Collector",       prefab = "ItemKitLarreDockCollector",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
-        { name = "Large Dock Hydroponics",       prefab = "ItemKitLarreDockHydroponics",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
+        { name = "LArRE Dock Atmos",       prefab = "ItemKitLarreDockAtmos",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
+        { name = "LArRE Dock Bypass",       prefab = "ItemKitLarreDockBypass",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
+        { name = "LArRE Dock Cargo",       prefab = "ItemKitLarreDockCargo",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
+        { name = "LArRE Dock Collector",       prefab = "ItemKitLarreDockCollector",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
+        { name = "LArRE Dock Hydroponics",       prefab = "ItemKitLarreDockHydroponics",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
         { name = "Rover MKI",       prefab = "ItemKitRoverMKI",       req = { Copper = 15, Steel = 80, Electrum = 10, Constanttan = 5 }, single_batch = true },
     },
     -- ===== [3] PIPE BENDER =================
@@ -806,7 +813,7 @@ station_recipes = {
         { name = "Kit Liq Filtration",prefab = "ItemKitLiquidFiltration", req = { Iron = 10, Gold = 5, Copper = 20 }, single_batch = true },
         { name = "Kit Water Purifier",prefab = "ItemKitWaterPurifier", req = { Iron = 10, Gold = 5, Copper = 20 }, single_batch = true },
         { name = "Kit Chute",         prefab = "ItemKitChute",         req = { Iron = 3 } },
-        { name = "Kit Standard Chute",prefab = "ItemKitStandardChute", req = { Iron = 3, Constantan = 2, Electrum = 2 } },
+        { name = "Kit Powered Chute",prefab = "ItemKitStandardChute", req = { Iron = 3, Constantan = 2, Electrum = 2 } },
         { name = "Kit Pipe",          prefab = "ItemKitPipe",          req = { Iron = 0.5 } },
         { name = "Insulated Pipe",    prefab = "ItemKitInsulatedPipe", req = { Steel = 1, Silicon = 1 } },
         { name = "Insulated Liq Pipe",prefab = "ItemKitInsulatedLiquidPipe", req = { Steel = 1, Silicon = 1 } },
@@ -1019,6 +1026,18 @@ station_recipes = {
         { name = "ItemBasketBall", prefab = "ItemBasketBall", req = { Silicon = 1 }, single_batch = true },
         { name = "ItemKitBasket", prefab = "ItemKitBasket", req = { Iron = 5, Copper = 2 }, single_batch = true },
         { name = "ItemPlantSampler", prefab = "ItemPlantSampler", req = { Iron = 5, Copper = 5 }, single_batch = true },
+        { name = "ItemSprayCanYellow", prefab = "ItemSprayCanYellow", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemSprayCanWhite", prefab = "ItemSprayCanWhite", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemSprayCanRed", prefab = "ItemSprayCanRed", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemSprayCanPurple", prefab = "ItemSprayCanPurple", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemSprayCanPink", prefab = "ItemSprayCanPink", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemSprayCanOrange", prefab = "ItemSprayCanOrange", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemSprayCanKhaki", prefab = "ItemSprayCanKhaki", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemSprayCanGrey", prefab = "ItemSprayCanGrey", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemSprayCanGreen", prefab = "ItemSprayCanGreen", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemSprayCanBrown", prefab = "ItemSprayCanBrown", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemSprayCanBlack", prefab = "ItemSprayCanBlack", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemSprayCanBlue", prefab = "ItemSprayCanBlue", req = { Iron = 1 }, single_batch = true },
     },
 
 }
@@ -2565,11 +2584,17 @@ end
 
 local function update_overview_dynamic()
 
-    local function set(id, text, color, label_color)
+    local function set(id, text, color)
+        local h = handles.overview[id]
+        if h ~= nil then
+            h:set_props({ text = tostring(text) })
+            h:set_style({ color = color or C.text })
+        end
+    end
 
     local entry = current_craft_entry()
     local preview = craft_preview_lines(entry, requested_amount)
-    local can_start = craft_has_stock(entry, requested_amount)
+    local can_start, missing_v = craft_has_stock(entry, requested_amount)
     local recipe_idx = selected_recipe_per_station[selected_station_index] or 1
     local total_recipes = #(station_recipes[selected_station_index] or {})
 
@@ -2638,15 +2663,10 @@ local function update_overview_dynamic()
             gradient_dir = "vertical"
         })
     end
-end
 
-
-
-    local craft_entry = current_craft_entry()
-    local can_start, missing_v = craft_has_stock(craft_entry, requested_amount)
     set("ov_stock", can_start and "OK" or "LOW", can_start and C.green or C.red)
     set("ov_station", crafting_stations[selected_station_index] or "-", C.accent)
-    
+
     if not can_start then
         for i = 1, 3 do
             local h = handles.overview["preview_" .. i]
@@ -2661,9 +2681,9 @@ end
     for _, mat in ipairs(CRAFTING_MATERIAL_DISPLAY_ORDER) do
         local h = handles.overview["ov_silo_" .. mat]
         if h then
-            local need = craft_entry and craft_entry.req and craft_entry.req[mat]
+            local need = entry and entry.req and entry.req[mat]
             if need then
-                local total_crafts = craft_entry.single_batch and requested_amount or (requested_amount * CRAFTS_PER_BATCH)
+                local total_crafts = entry.single_batch and requested_amount or (requested_amount * CRAFTS_PER_BATCH)
                 local current_grams = read_silo_ingot_amount(mat)
                 local needed_grams = need * total_crafts
                 local col = current_grams >= needed_grams and C.green or C.red
@@ -2672,7 +2692,7 @@ end
             end
         end
     end
-    
+
     local boot_text = "Ready"
     local boot_color = C.green
     local completion_text = "Idle"
@@ -2698,7 +2718,7 @@ end
         completion_text = string.format("Unload (%dt)", rem_ticks)
         completion_color = C.yellow
     end
-    
+
     set("ov_boot", boot_text, boot_color)
     set("ov_completion", completion_text, completion_color)
 
@@ -2757,6 +2777,7 @@ local function render_settings()
             on_click = function()
                 settings_subtab = target
                 settings_device_page = 1
+                settings_cache_dirty = true
                 dashboard_render(true)
             end
         })
@@ -2765,7 +2786,6 @@ local function render_settings()
     local content_y = tab_y + 30
 
     if settings_subtab ~= "control" then
-        local devices = device_list() or {}
         local grouped_roles = current_settings_roles()
 
         local y = content_y + 18
@@ -2777,7 +2797,8 @@ local function render_settings()
         for i = start_idx, end_idx do
             local role = grouped_roles[i]
             local def = role ~= nil and role_defs[role.index] or nil
-            local options, candidates, selected_idx = build_filtered_device_options(devices, role)
+            local cache = cached_role_dropdowns[def.key] or { opts = { "Select device..." }, cands = {}, sel = 0 }
+            local options, candidates, selected_idx = cache.opts, cache.cands, cache.sel
             local row_candidates = candidates
             settings_dropdown_selected[def.key] = selected_idx
 
@@ -2799,7 +2820,13 @@ local function render_settings()
                     open = settings_dropdown_open[def.key],
                 },
                 on_toggle = function()
-                    settings_dropdown_open[def.key] = settings_dropdown_open[def.key] == "true" and "false" or "true"
+                    local opening = settings_dropdown_open[def.key] ~= "true"
+                    if opening then
+                        local devs = device_list_safe()
+                        local opts, cands, sel = build_filtered_device_options(devs, role)
+                        cached_role_dropdowns[def.key] = { opts = opts, cands = cands, sel = sel }
+                    end
+                    settings_dropdown_open[def.key] = opening and "true" or "false"
                     dashboard_render(true)
                 end,
                 on_change = function(optionIndex)
@@ -2819,6 +2846,9 @@ local function render_settings()
                     end
 
                     save_role_to_memory(role)
+                    if cached_role_dropdowns[def.key] then
+                        cached_role_dropdowns[def.key].sel = selected_option
+                    end
                     dashboard_render(true)
                 end
             })
@@ -3044,6 +3074,24 @@ end
 -- ==================== BOOT ====================
 
 load_roles_from_memory()
+local boot_devs = device_list_safe()
+for _, def in ipairs(role_defs) do
+    local role = roles[def.key]
+    if role ~= nil and role_is_bound(role) then
+        local label = nil
+        for _, dev in ipairs(boot_devs) do
+            if (tonumber(dev.prefab_hash) or 0) == (tonumber(role.prefab) or 0)
+                and (tonumber(dev.name_hash) or 0) == (tonumber(role.namehash) or 0) then
+                label = tostring(dev.display_name or "")
+                break
+            end
+        end
+        if label == nil or label == "" then
+            label = resolve_name_hash(role.namehash)
+        end
+        cached_role_dropdowns[def.key] = { opts = { "Select device...", label }, cands = {}, sel = 1 }
+    end
+end
 load_crafting_state()
 normalize_settings_subtab()
 
@@ -3083,7 +3131,7 @@ while true do
     if tick % LIVE_REFRESH_TICKS == 0 then
         log_ui("loop: dashboard refresh")
         safe_call("loop dashboard_render", function()
-            dashboard_render(true)
+            dashboard_render(false)
         end)
     end
 
