@@ -115,7 +115,7 @@ local MEM_QUEUE_COUNT = 199
 local MEM_QUEUE_BEGIN = 200
 
 -- =============== Logs & util functions ===============
-local DEBUG_LOG_ENABLED = true
+local DEBUG_LOG_ENABLED = false
 local DEBUG_LOG_UI = false
 local debug_seq = 0
 local gt, gtH, gtM, gtS = 0, 0, 0, 0
