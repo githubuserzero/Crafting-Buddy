@@ -739,7 +739,7 @@ station_recipes = {
         { name = "LArRE Dock Cargo",       prefab = "ItemKitLarreDockCargo",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
         { name = "LArRE Dock Collector",       prefab = "ItemKitLarreDockCollector",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
         { name = "LArRE Dock Hydroponics",       prefab = "ItemKitLarreDockHydroponics",       req = { Inconel = 10, Astroloy = 15, Hastelloy = 5 }, single_batch = true },
-        { name = "Rover MKI",       prefab = "ItemKitRoverMKI",       req = { Copper = 15, Steel = 80, Electrum = 10, Constanttan = 5 }, single_batch = true },
+        { name = "Rover MKI",       prefab = "ItemKitRoverMKI",       req = { Copper = 15, Steel = 80, Electrum = 10, Constantan = 5 }, single_batch = true },
     },
     -- ===== [3] PIPE BENDER =================
     [3] = {
