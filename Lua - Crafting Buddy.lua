@@ -703,7 +703,7 @@ station_recipes = {
         { name = "Landing Pad Atmos", prefab = "ItemKitLandingPadAtmos", req = { Copper = 1, Steel = 5 }, single_batch = true },
         { name = "Landing Pad Waypoint",prefab = "ItemKitLandingPadWaypoint", req = { Copper = 1, Steel = 5 }, single_batch = true },
         { name = "Harvie",            prefab = "ItemKitHarvie",        req = { Electrum = 10, Copper = 15, Steel = 10, Solder = 5, Silicon = 5 }, single_batch = true },
-        { name = "Dynamic Generator", prefab = "ItemKitDynamicGenerator", req = { Gold = 15, Steel = 20, Solder = 5 }, single_batch = true },
+        { name = "Portable Generator", prefab = "ItemKitDynamicGenerator", req = { Gold = 15, Steel = 20, Solder = 5 }, single_batch = true },
         { name = "Vending Machine",   prefab = "ItemKitVendingMachine", req = { Steel = 10, Gold = 25, Solder = 5, Electrum = 25 }, single_batch = true },
         { name = "Vending Refrigerated",prefab = "ItemKitVendingMachineRefrigerated", req = { Steel = 40, Gold = 60, Solder = 30, Electrum = 80 }, single_batch = true },
         { name = "Kit Automated Oven",prefab = "ItemKitAutomatedOven", req = { Steel = 25, Gold = 10, Copper = 15, Solder = 10, Constantan = 5 }, single_batch = true },
@@ -861,13 +861,17 @@ station_recipes = {
         { name = "Wall Heater",       prefab = "ItemWallHeater",       req = { Iron = 3, Gold = 1, Copper = 3 }, single_batch = true },
         { name = "Kit Sleeper",       prefab = "ItemKitSleeper",       req = { Steel = 25, Gold = 10, Copper = 10 }, single_batch = true },
         { name = "Kit Cryo Tube",     prefab = "ItemKitCryoTube",      req = { Gold = 10, Silver = 5, Copper = 10, Steel = 35 }, single_batch = true },
-        { name = "Dynamic Air Con",   prefab = "ItemDynamicAirCon",    req = { Gold = 5, Silver = 5, Steel = 20, Solder = 5 }, single_batch = true },
-        { name = "Dynamic Scrubber",  prefab = "ItemDynamicScrubber",  req = { Gold = 5, Invar = 5, Steel = 20, Solder = 5 }, single_batch = true },
-        { name = "Kit Dynamic Hydro", prefab = "ItemKitDynamicHydroponics", req = { Steel = 20, Copper = 5 }, single_batch = true },
+        { name = "Portable Air Con",   prefab = "ItemDynamicAirCon",    req = { Gold = 5, Silver = 5, Steel = 20, Solder = 5 }, single_batch = true },
+        { name = "Portable Scrubber",  prefab = "ItemDynamicScrubber",  req = { Gold = 5, Invar = 5, Steel = 20, Solder = 5 }, single_batch = true },
+        { name = "Kit Portable Hydro", prefab = "ItemKitDynamicHydroponics", req = { Steel = 20, Copper = 5 }, single_batch = true },
         { name = "Kit Pipe Organ",    prefab = "ItemKitPipeOrgan",     req = { Iron = 3 }, single_batch = true },
         { name = "Kit Ice Crusher",   prefab = "ItemKitIceCrusher",    req = { Iron = 3, Copper = 1, Gold = 1 }, single_batch = true },
         { name = "Kit Shower",        prefab = "ItemKitShower",        req = { Iron = 5, Copper = 5, Silicon = 5 }, single_batch = true },
         { name = "Appliance Seed Tray",         prefab = "ApplianceSeedTray",    req = { Iron = 10, Copper = 5, Silicon = 15 }, single_batch = true },
+        { name = "Portable Gas Tank",         prefab = "ItemKitDynamicCanister",    req = { Iron = 20 }, single_batch = true },
+        { name = "Portable Gas Tank Mk II",         prefab = "ItemKitDynamicGasTankAdvanced",    req = { Iron = 20, Copper = 5, Silicon = 5, Steel = 15 }, single_batch = true },
+        { name = "Portable Liquid Tank",         prefab = "ItemKitDynamicLiquidCanister",    req = { Iron = 20 }, single_batch = true },
+        { name = "Portable Liquid Tank Mk II",         prefab = "ItemKitDynamicMKIILiquidCanister",    req = { Iron = 20, Copper = 5, Silicon = 5, Steel = 15 }, single_batch = true },
     },
     -- ===== [4] ROCKET MANUFACTORY =================
     [4] = {
@@ -1018,11 +1022,11 @@ station_recipes = {
         { name = "ItemHardBackpack", prefab = "ItemHardBackpack", req = { Steel = 15, Astroloy = 5, Stellite = 5 }, single_batch = true },
         { name = "ItemHardJetpack", prefab = "ItemHardJetpack", req = { Steel = 20, Astroloy = 8, Stellite = 8, Waspaloy = 8 }, single_batch = true },
         { name = "ItemFlagSmall", prefab = "ItemFlagSmall", req = { Iron = 1 }, single_batch = true },
-        { name = "ItemKitDynamicAFrameStripes", prefab = "ItemKitDynamicAFrameStripes", req = { Silicon = 1 }, single_batch = true },
-        { name = "ItemKitDynamicAFrameWIP1", prefab = "ItemKitDynamicAFrameWIP1", req = { Silicon = 1 }, single_batch = true },
-        { name = "ItemKitDynamicBarrier", prefab = "ItemKitDynamicBarrier", req = { Iron = 1 }, single_batch = true },
-        { name = "ItemKitDynamicChannelizer", prefab = "ItemKitDynamicChannelizer", req = { Silicon = 1 }, single_batch = true },
-        { name = "ItemKitDynamicWorkCone", prefab = "ItemKitDynamicWorkCone", req = { Silicon = 1 }, single_batch = true },
+        { name = "ItemKitPortableAFrameStripes", prefab = "ItemKitDynamicAFrameStripes", req = { Silicon = 1 }, single_batch = true },
+        { name = "ItemKitPortableAFrameWIP1", prefab = "ItemKitDynamicAFrameWIP1", req = { Silicon = 1 }, single_batch = true },
+        { name = "ItemKitPortableBarrier", prefab = "ItemKitDynamicBarrier", req = { Iron = 1 }, single_batch = true },
+        { name = "ItemKitPortableChannelizer", prefab = "ItemKitDynamicChannelizer", req = { Silicon = 1 }, single_batch = true },
+        { name = "ItemKitPortableWorkCone", prefab = "ItemKitDynamicWorkCone", req = { Silicon = 1 }, single_batch = true },
         { name = "ItemBasketBall", prefab = "ItemBasketBall", req = { Silicon = 1 }, single_batch = true },
         { name = "ItemKitBasket", prefab = "ItemKitBasket", req = { Iron = 5, Copper = 2 }, single_batch = true },
         { name = "ItemPlantSampler", prefab = "ItemPlantSampler", req = { Iron = 5, Copper = 5 }, single_batch = true },
@@ -1152,7 +1156,6 @@ local function route_to_station(station_index)
     end
 end
 
--- helper: get current recipe entry for the selected station
 local function current_craft_entry()
     local recipes = station_recipes[selected_station_index] or {}
     local idx = selected_recipe_per_station[selected_station_index] or 1
@@ -1167,7 +1170,6 @@ local function selected_output_amount()
     return requested_amount * CRAFTS_PER_BATCH
 end
 
--- helper: build req lines for preview display
 local function craft_preview_lines(entry, amount)
     local total_crafts = entry.single_batch and amount or (amount * CRAFTS_PER_BATCH)
     if entry == nil or entry.req == nil then return { "No recipe", "", "" } end
@@ -1191,7 +1193,6 @@ local function craft_preview_lines(entry, amount)
     return lines
 end
 
--- check if all required ingots are available in silos
 local function craft_has_stock(entry, amount)
     local total_crafts = entry.single_batch and amount or (amount * CRAFTS_PER_BATCH)
     if entry == nil or entry.req == nil then return false, {} end
@@ -1220,13 +1221,11 @@ local function craft_has_stock(entry, amount)
     return all_ok, missing
 end
 
--- start crafting: route sorters then queue silo requests
 local function start_craft(entry, amount)
     local total_crafts = entry.single_batch and amount or (amount * CRAFTS_PER_BATCH)
     if entry == nil then return false end
     
     if unload_active and unload_station_index == selected_station_index then
-        -- Cancel ongoing unload before starting new craft
         local station_keys = { "station_autolathe", "station_electronics", "station_pipebender", "station_rocket", "station_security", "station_tools" }
         local station_key = station_keys[unload_station_index]
         local role = roles[station_key]
@@ -1240,7 +1239,6 @@ local function start_craft(entry, amount)
     route_to_station(selected_station_index)
     
     local required_reagents = 0
-    -- build silo request items from recipe req
     local items = {}
     for mat, count in pairs(entry.req) do
         local role_key = SILO_ROLES[mat]
@@ -1270,7 +1268,6 @@ local function start_craft(entry, amount)
         return false
     end
     
-    -- Configure stacker
     local stacker_role = roles["stacker_main"]
     if stacker_role and role_is_bound(stacker_role) then
         safe_batch_write_name(stacker_role.prefab, stacker_role.namehash, LT.Setting, total_crafts)
@@ -1415,7 +1412,6 @@ end
 local function main_logic_tick(tick_count)
     set_status_visuals()
     
-    -- HARDWARE SAFETY BOOT PHASE (Wait 30 ticks before allowing activity)
     if boot_phase_ticks < 30 then
         boot_phase_ticks = boot_phase_ticks + 1
         if boot_phase_ticks % 10 == 0 then
@@ -1431,10 +1427,9 @@ local function main_logic_tick(tick_count)
                 end
             end
         end
-        return -- BLOCK ALL LOGIC
+        return
     end
     
-    -- Sync ExportCount once when safety phase ends
     if boot_phase_ticks == 30 and crafting_run_active then
         local station_keys = { "station_autolathe", "station_electronics", "station_pipebender", "station_rocket", "station_security", "station_tools" }
         local role = roles[station_keys[selected_station_index]]
@@ -1445,20 +1440,18 @@ local function main_logic_tick(tick_count)
                 log_action("Boot Resumption: Synced ExportCount=" .. exp)
             end
         end
-        boot_phase_ticks = 31 -- Mark sync as done
+        boot_phase_ticks = 31
     end
     
     if silo_request.active then
         process_silo_request_tick()
     elseif (tick_count % 10 == 0) then
-        -- Defensive silo closure
         for _, prefab in ipairs(SILO_PREFABS) do
             safe_batch_write_name(prefab, 0, LT.Open, 0)
         end
     end
     
     if not crafting_run_active and not unload_active and (tick_count % 10 == 0) then
-        -- Defensive station closure
         for _, prefab in ipairs(CRAFTING_DEVICES) do
             safe_batch_write_name(prefab, 0, LT.Open, 0)
         end
@@ -1513,20 +1506,16 @@ local function main_logic_tick(tick_count)
         local station_role = roles[station_keys[unload_station_index]]
         local stacker_role = roles["stacker_main"]
         
-        -- Close station door after 10 ticks
         if unload_ticks == 10 then
             if station_role and role_is_bound(station_role) then
                 safe_batch_write_name(station_role.prefab, station_role.namehash, LT.Open, 0)
             end
         end
         
-        -- Stacker Management
         if stacker_role and role_is_bound(stacker_role) then
             if unload_ticks <= 12 then
-                -- Stage 1: Stack finished items at original target size
                 safe_batch_write_name(stacker_role.prefab, stacker_role.namehash, LT.Setting, crafting_original_target)
             else
-                -- Stage 2: Fast-flush surplus ingots at max stack size
                 safe_batch_write_name(stacker_role.prefab, stacker_role.namehash, LT.Setting, 50)
                 if unload_ticks % 5 == 0 then
                     safe_batch_write_name(stacker_role.prefab, stacker_role.namehash, LT.Activate, 1)
