@@ -2572,6 +2572,7 @@ end
 
 
 local function update_overview_dynamic()
+    if not global_power_on then return end
 
     local function set(id, text, color)
         local h = handles.overview[id]
@@ -2667,13 +2668,18 @@ local function update_overview_dynamic()
         end
     end
 
+    local silo_cache = {}
+    for _, mat in ipairs(MATERIAL_ORDER) do
+        silo_cache[mat] = read_silo_ingot_amount(mat)
+    end
+
     for _, mat in ipairs(CRAFTING_MATERIAL_DISPLAY_ORDER) do
         local h = handles.overview["ov_silo_" .. mat]
         if h then
             local need = entry and entry.req and entry.req[mat]
             if need then
                 local total_crafts = entry.single_batch and requested_amount or (requested_amount * CRAFTS_PER_BATCH)
-                local current_grams = read_silo_ingot_amount(mat)
+                local current_grams = silo_cache[mat] or 0
                 local needed_grams = need * total_crafts
                 local col = current_grams >= needed_grams and C.green or C.red
                 h:set_props({ text = string.format("%s: %g / %g", mat, current_grams, needed_grams) })
@@ -2715,7 +2721,7 @@ local function update_overview_dynamic()
         local key = SILO_HANDLE_KEY[mat]
         local h = handles.overview[key]
         if h ~= nil then
-            local ingot_amount = read_silo_ingot_amount(mat)
+            local ingot_amount = silo_cache[mat] or 0
             h:set_props({ text = fmt(ingot_amount, 0) })
             h:set_style({ font_size = 8, color = stock_amount_color(ingot_amount), align = "left" })
         end
